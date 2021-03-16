@@ -3,7 +3,7 @@ from dropbox.exceptions import ApiError
 from dropbox.files import WriteMode
 from datetime import datetime
 
-from decision_tree_classifier.decorators import singleton
+from decision_tree_classifier.utils.singleton import singleton
 
 
 @singleton
@@ -26,7 +26,7 @@ class DropboxClient:
         response = self.__dropbox.files_list_folder("")
         for file in response.entries:
             time_delta = datetime.now() - file.client_modified
-            if time_delta.seconds >= 21600:  # 6 hours
+            if time_delta.seconds >= 15*60:
                 self.__delete_file(file.path_display)
 
     def __delete_file(self, file):

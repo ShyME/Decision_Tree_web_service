@@ -3,8 +3,8 @@ import os
 from django.apps import AppConfig
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from decision_tree_classifier.DropboxClient import DropboxClient
-from decision_tree_classifier.utils import delete_old_files_from
+from decision_tree_classifier.model_image.DropboxClient import DropboxClient
+from decision_tree_classifier.utils.utils import delete_old_files_from
 
 
 class DecisionTreeClassifierConfig(AppConfig):

@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 import pandas as pd
 
-from decision_tree_classifier.utils import ModelJsonUtil
+from decision_tree_classifier.classifier_model.ModelJSONTransformer import ModelJSONTransformer
 from decision_tree_classifier.serializers import DecisionTreeTestDataInputSerializer
 
 
@@ -17,7 +17,7 @@ class DecisionTreeResultView(APIView):
             test_data_file = request_data["test_data_file"]
             decision_tree_json = request_data["decision_tree_json"]
 
-            decision_tree = ModelJsonUtil.get_model_from_json_string(decision_tree_json)
+            decision_tree = ModelJSONTransformer.get_model_from_json_string(decision_tree_json)
             predicted_result = decision_tree.predict(pd.read_csv(test_data_file))
 
             return Response(

@@ -6,10 +6,11 @@ from rest_framework.views import APIView
 
 import pandas as pd
 
-from decision_tree_classifier.DropboxClient import DropboxClient
+from decision_tree_classifier.model_image.DropboxClient import DropboxClient
 from decision_tree_classifier.apps import DecisionTreeClassifierConfig
-from decision_tree_classifier.utils import ModelJsonUtil, get_unique_filename
-from decision_tree_classifier.DecisionTree import DecisionTree
+from decision_tree_classifier.classifier_model.ModelJSONTransformer import ModelJSONTransformer
+from decision_tree_classifier.utils.utils import get_unique_filename
+from decision_tree_classifier.classifier_model.DecisionTree import DecisionTree
 from decision_tree_classifier.serializers import DecisionTreeInputSerializer
 
 
@@ -29,15 +30,13 @@ class DecisionTreeView(APIView):
 
             decision_tree = DecisionTree(data_frame, target_feature, test_set_size, max_depth, max_features)
 
-            # image_path = os.path.dirname(__file__)
-            # tree_img_file_path = os.path.join(image_path, ("/mlt_dtree/images/" + get_unique_filename("png")))
             tree_image_file_path = os.path.join(DecisionTreeClassifierConfig.image_file_path, get_unique_filename("png"))
             decision_tree.create_image(tree_image_file_path)
 
             return Response(
                 {
                     "accuracy": decision_tree.accuracy,
-                    "model": ModelJsonUtil.get_model_as_json_string(decision_tree),
+                    "model": ModelJSONTransformer.get_model_as_json_string(decision_tree),
                     "imageUrl": DropboxClient().upload_share_file(tree_image_file_path)
                 },
                 status=status.HTTP_200_OK

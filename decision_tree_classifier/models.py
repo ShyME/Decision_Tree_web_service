@@ -1,7 +1,7 @@
 from django.core.validators import MaxValueValidator, MinValueValidator, FileExtensionValidator
 from django.db import models
 
-from decision_tree_classifier.validators import validate_file_size
+from decision_tree_classifier.utils.validators import validate_file_size
 
 
 class DecisionTreeInput(models.Model):
