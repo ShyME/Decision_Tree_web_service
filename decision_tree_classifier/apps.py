@@ -22,6 +22,6 @@ class DecisionTreeClassifierConfig(AppConfig):
 
     def __schedule_tasks(self):
         self.__scheduler = BackgroundScheduler()
-        self.__scheduler.add_job(DropboxClient().delete_old_files, 'cron', [15*60], hour='*/1')
-        self.__scheduler.add_job(delete_old_files_from, 'cron', [DecisionTreeClassifierConfig.image_file_path, 15*60], hour="*/1")
+        self.__scheduler.add_job(DropboxClient().delete_old_files, 'cron', [15*60], hour='*/1', minute="*/15")
+        self.__scheduler.add_job(delete_old_files_from, 'cron', [DecisionTreeClassifierConfig.image_file_path, 15*60], hour="*/1", minute="*/15")
         self.__scheduler.start()

@@ -1,7 +1,7 @@
 import dropbox
 from dropbox.exceptions import ApiError
 from dropbox.files import WriteMode
-from datetime import datetime
+from datetime import datetime, timezone
 
 from decision_tree_classifier.secrets import DROPBOX_APP_TOKEN
 from decision_tree_classifier.utils.singleton import singleton
@@ -25,7 +25,7 @@ class DropboxClient:
     def delete_old_files(self, time_old):
         response = self.__dropbox.files_list_folder("")
         for file in response.entries:
-            time_delta = datetime.now() - file.client_modified
+            time_delta = datetime.now(timezone.utc) - file.client_modified.replace(tzinfo=timezone.utc)
             if time_delta.seconds >= time_old:
                 self.__delete_file(file.path_display)
 
